@@ -4,14 +4,17 @@ def jsonParse(def json) {
     new groovy.json.JsonSlurperClassic().parseText(json)
 }
 pipeline {
-  agent any
-  environment {
+   #Elige a un agente 
+  agent any 
+  #Se definen las variables de entorno
+    environment {
     appName = "variable" 
   }
+  #Fases y se dividen por otras fases
   stages {
 
  stage("paso 1"){
-     
+     #Tarea de una fase
       steps {
           script {			
            sh "echo 'hola mundo'"
@@ -19,15 +22,18 @@ pipeline {
       }
     }
   }
+  #Se ejecuta al finalizar el pipe
   post {
+      #Se ejecuta al finalizar la tarea
       always {          
           deleteDir()
            sh "echo 'fase always'"
       }
+      #Se ejecuta si fue correcta la tarea
       success {
             sh "echo 'fase success'"
         }
-
+    #Se ejecuta sólo si la tarea falla finalizar la tarea
       failure {
             sh "echo 'fase failure'"
       }
